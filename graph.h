@@ -2,39 +2,64 @@
 #define GRAPH_H
 
 #include <iostream>
-#include <vector>
 #include <list>
-using namespace std;
-
-const int NUM_LISTS = 5;
+#include <stack>
+#include <vector>
+#include <sstream>
 
 class Graph {
-private:
-    int V;
-    vector<list<int>> l;
+    int numVertices;
+    std::list<int>* adjLists;
+    bool* visited;
 
 public:
-    // Use an initialization list for constructor
-    Graph(int vertices, const vector<list<int>>& adj_lists) : V(vertices), l(adj_lists) {}
+    Graph(int vertices);
+    void addEdge(int src, int dest);
+    void DFS(int startVertex);
 
-    void addEdge(int x, int y) {
-        l[x].push_back(y);
-        l[y].push_back(x);
+    ~Graph() {
+        delete[] adjLists;
+        delete[] visited;
     }
-
-    void printLists() {
-        for (int i = 0; i < V; ++i) {
-            list<int>list = l[i];
-            cout << "List " << i << ": [ ";
-            for (int number : list) {
-                cout << number << " ";
-            }
-            cout << "]\n";
-        }
-    }
-
 };
 
+// Initialize graph
+Graph::Graph(int vertices) {
+    numVertices = vertices;
+    adjLists = new std::list<int>[vertices];
+    visited = new bool[vertices];
+}
+
+// Add edges
+void Graph::addEdge(int src, int dest) {
+    adjLists[src].push_back(dest);
+}
+
+// DFS algorithm
+void Graph::DFS(int startVertex) {
+    std::stack<int> stack;
+    for (int i = 0; i < numVertices; i++)
+        visited[i] = false;
+
+    stack.push(startVertex);
+
+    while (!stack.empty()) {
+        int currentVertex = stack.top();
+        stack.pop();
+
+        if (!visited[currentVertex]) {
+            visited[currentVertex] = true;
+            std::cout << currentVertex << " ";
+
+            for (auto i = adjLists[currentVertex].rbegin(); i != adjLists[currentVertex].rend(); ++i) {
+                int adjVertex = *i;
+                if (!visited[adjVertex])
+                    stack.push(adjVertex);
+            }
+        }
+    }
+    std::cout << std::endl;
+}
 
 
 #endif
