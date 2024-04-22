@@ -3,8 +3,6 @@
 #include "graph.h"
 using namespace std;
 
-void purgeInputErrors(string error_message);
-
 int main() {
     cout << "Welcome to the Depth First Search traversal simulator!\n\n";
    
@@ -15,7 +13,9 @@ int main() {
 
     // Terminate program on invalid input
     if (!cin) {
-        purgeInputErrors("\nError: Invalid Input Detected\n");
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "\nError: Invalid Number of Vertices Detected" << endl;
     }
     else {
         cin.ignore();  // Ignore the newline character left in the input buffer
@@ -49,19 +49,13 @@ int main() {
 
         if (!invalid_input_detected) {
             int startVertex;
-            cout << "Enter the starting node for DFS: ";
+            cout << "\n\nEnter the starting node for DFS: ";
             cin >> startVertex;
             cout << "DFS: ";
             g.DFS(startVertex);
         }
     }
 
-    cout << "Terminating Program...\n";
+    cout << "\nTerminating Program...\n";
     return 0;
-}
-
-void purgeInputErrors(string error_message) {
-    cin.clear();
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    cout << error_message << endl;
 }
