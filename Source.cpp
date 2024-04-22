@@ -13,34 +13,36 @@ int main() {
     cout << "Enter the number of vertices: ";
     cin >> numVertices;
 
-    // Handle invalid input
+    // Terminate program on invalid input
     if (!cin) {
-        purgeInputErrors("Error: Invalid Input Detected\n");
+        purgeInputErrors("\nError: Invalid Input Detected\n");
     }
+    else {
+        cin.ignore();  // Ignore the newline character left in the input buffer
+        Graph g(numVertices);
 
-    Graph g(numVertices);
-    cin.ignore();  // Ignores the newline character left in the input buffer
+        // Build the graph based on user input
+        for (int i = 0; i < numVertices; ++i) {
+            string line;
+            cout << "\nAdjacency list for vertex " << i << ": ";
 
-    // Build the graph based on user input
-    for (int i = 0; i < numVertices; ++i) {
-        string line;
-        cout << "\nAdjacency list for vertex " << i << ": ";
+            getline(cin, line);
+            istringstream iss(line);
 
-        getline(cin, line);
-        istringstream iss(line);
-
-        int vertex;
-        while (iss >> vertex) {
-            g.addEdge(i, vertex);
+            int vertex;
+            while (iss >> vertex) {
+                g.addEdge(i, vertex);
+            }
         }
+
+        int startVertex;
+        cout << "Enter the starting node for DFS: ";
+        cin >> startVertex;
+        cout << "DFS: ";
+        g.DFS(startVertex);
     }
 
-    int startVertex;
-    cout << "Enter the starting node for DFS: ";
-    cin >> startVertex;
-    cout << "DFS: ";
-    g.DFS(startVertex);
-
+    cout << "Terminating Program...\n";
     return 0;
 }
 
