@@ -1,6 +1,9 @@
 #include <iostream>
+#include <limits>
 #include "graph.h"
 using namespace std;
+
+void purgeInputErrors(string error_message);
 
 int main() {
     cout << "Welcome to the Depth First Search traversal simulator!\n\n";
@@ -9,6 +12,11 @@ int main() {
     int numVertices;
     cout << "Enter the number of vertices: ";
     cin >> numVertices;
+
+    // Handle invalid input
+    if (!cin) {
+        purgeInputErrors("Error: Invalid Input Detected\n");
+    }
 
     Graph g(numVertices);
     cin.ignore();  // Ignores the newline character left in the input buffer
@@ -34,4 +42,10 @@ int main() {
     g.DFS(startVertex);
 
     return 0;
+}
+
+void purgeInputErrors(string error_message) {
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cout << error_message << endl;
 }
