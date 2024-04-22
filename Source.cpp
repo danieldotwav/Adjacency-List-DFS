@@ -5,6 +5,7 @@ using namespace std;
 int main() {
     cout << "Welcome to the Depth First Search traversal simulator!\n\n";
    
+    // Allow the user to determine the number of vertices
     int numVertices;
     cout << "Enter the number of vertices: ";
     cin >> numVertices;
@@ -16,8 +17,10 @@ int main() {
     for (int i = 0; i < numVertices; ++i) {
         string line;
         cout << "\nAdjacency list for vertex " << i << ": ";
+
         getline(cin, line);
         istringstream iss(line);
+
         int vertex;
         while (iss >> vertex) {
             g.addEdge(i, vertex);

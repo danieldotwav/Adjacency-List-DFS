@@ -38,8 +38,9 @@ void Graph::addEdge(int src, int dest) {
 // DFS algorithm
 void Graph::DFS(int startVertex) {
     std::stack<int> stack;
-    for (int i = 0; i < numVertices; i++)
+    for (int i = 0; i < numVertices; i++) {
         visited[i] = false;
+    }
 
     stack.push(startVertex);
 
@@ -53,8 +54,9 @@ void Graph::DFS(int startVertex) {
 
             for (auto i = adjLists[currentVertex].rbegin(); i != adjLists[currentVertex].rend(); ++i) {
                 int adjVertex = *i;
-                if (!visited[adjVertex])
+                if (!visited[adjVertex]) {
                     stack.push(adjVertex);
+                }
             }
         }
     }
